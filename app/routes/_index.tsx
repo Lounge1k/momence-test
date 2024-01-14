@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { getCurrency } from "~/server/getCurrency";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,35 +9,32 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const result = await getCurrency();
+  return result;
+}
+
 export default function Index() {
+  const { columns, data } = useLoaderData<typeof loader>();
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column}>{column}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((currency, index) => (
+          <tr key={index}>
+            {currency.map((field) => (
+              <td key={field}>{field}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
