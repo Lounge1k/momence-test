@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { Converter } from "~/components/coverter";
 import { getCurrency } from "~/server/getCurrency";
 
 export const meta: MetaFunction = () => {
@@ -16,25 +17,27 @@ export async function loader() {
 
 export default function Index() {
   const { columns, data } = useLoaderData<typeof loader>();
-
   return (
-    <table>
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column}>{column}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((currency, index) => (
-          <tr key={index}>
-            {currency.map((field) => (
-              <td key={field}>{field}</td>
+    <div style={{ display: "flex", flexWrap: "nowrap" }}>
+      <table style={{ flex: "0 0 50%", backgroundColor: "palevioletred" }}>
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column}>{column}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((currency: Record<string, string>, index) => (
+            <tr key={index}>
+              {Object.keys(currency).map((field: string) => (
+                <td key={currency[field]}>{currency[field]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Converter data={data} />
+    </div>
   );
 }

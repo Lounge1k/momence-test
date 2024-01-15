@@ -7,9 +7,13 @@ export const getCurrency = async () => {
   const date = lines[0];
   const columns = lines[1].split("|");
   const data = lines.slice(2).map((currency) => {
-    return currency.split("|");
+    return currency.split("|").reduce((result, item, index) => {
+      return {
+        ...result,
+        [columns[index].toLowerCase()]: item,
+      };
+    }, {});
   });
-  console.log(data);
   return {
     date,
     columns,
