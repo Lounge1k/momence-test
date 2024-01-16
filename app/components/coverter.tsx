@@ -23,8 +23,10 @@ export const Converter = ({ data }: any) => {
           <option value="" disabled selected>
             Select your option
           </option>
-          {data.map(({ rate, currency }: any) => (
-            <option value={rate}>{currency}</option>
+          {data.map(({ rate, code }: any) => (
+            <option key={code} value={rate}>
+              {code}
+            </option>
           ))}
         </select>
       </form>

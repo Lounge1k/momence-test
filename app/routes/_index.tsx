@@ -2,6 +2,8 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Converter } from "~/components/coverter";
 import { getCurrency } from "~/server/getCurrency";
+import * as styles from "~/styles/table.css";
+import * as font from "~/styles/global-style.css";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,11 +21,13 @@ export default function Index() {
   const { columns, data } = useLoaderData<typeof loader>();
   return (
     <div style={{ display: "flex", flexWrap: "nowrap" }}>
-      <table style={{ flex: "0 0 50%", backgroundColor: "palevioletred" }}>
+      <table className={styles.table}>
         <thead>
           <tr>
             {columns.map((column) => (
-              <th key={column}>{column}</th>
+              <th className={font.font} key={column}>
+                {column}
+              </th>
             ))}
           </tr>
         </thead>
