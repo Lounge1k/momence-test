@@ -1,7 +1,7 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState } from "react";
 import { ICurrency } from "~/interfaces";
 
-import * as styles from "~/styles/converter.css";
+import * as styles from "../styles/converter.css";
 type CoverterProps = {
   data: ICurrency[];
 };
@@ -10,12 +10,12 @@ export const Converter = ({ data }: CoverterProps) => {
   const [selectedCurrency, setSelectedCurrency] = useState<ICurrency>();
   const [amount, setAmount] = useState<number>();
 
-  const selectCurrency = (e) => {
+  const selectCurrency = (e: any) => {
     const selected = data.find((curr) => curr.code === e.target.value);
     setSelectedCurrency(selected);
   };
 
-  const handlerAmount = (e) => {
+  const handlerAmount = (e: any) => {
     setAmount(e.target.value);
   };
 
