@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { ICurrency } from "~/interfaces";
 
-export const Converter = ({ data }: any) => {
-  const [currency, setCurrency] = useState<number>();
+import * as styles from "~/styles/styles.css";
+
+type CoverterProps = {
+  data: ICurrency[];
+};
+
+export const Converter = ({ data }: CoverterProps) => {
+  const [selectedCurrency, setSelectedCurrency] = useState<ICurrency>();
   const [amount, setAmount] = useState<number>();
 
   const selectCurrency = (e) => {
-    console.log(e.target.value);
-    setCurrency(e.target.value);
+    const selected = data.find((curr) => curr.code === e.target.value);
+    setSelectedCurrency(selected);
   };
 
   const handlerAmount = (e) => {
@@ -14,23 +21,47 @@ export const Converter = ({ data }: any) => {
   };
 
   return (
-    <div style={{ flex: "0 0 50%", backgroundColor: "palegoldenrod" }}>
+    <div className={styles.converter}>
       <form>
-        <label htmlFor="amount">Amount</label>
-        <input onChange={handlerAmount} type="number" id="amount" />
-        <label id="currency">Currency</label>
-        <select id="currency" onChange={selectCurrency}>
-          <option value="" disabled selected>
-            Select your option
-          </option>
-          {data.map(({ rate, code }: any) => (
-            <option key={code} value={rate}>
-              {code}
+        <label className={styles.label} htmlFor="amount">
+          Amount
+          <input
+            className={styles.formField}
+            onChange={handlerAmount}
+            type="number"
+            id="amount"
+          />
+        </label>
+        <label className={styles.label} id="currency">
+          Currency
+          <select
+            className={styles.dropdown}
+            id="currency"
+            onChange={selectCurrency}
+          >
+            <option value="" disabled selected>
+              Select your option
             </option>
-          ))}
-        </select>
+            {data.map(({ code }: ICurrency) => (
+              <option key={code} value={code}>
+                {code}
+              </option>
+            ))}
+          </select>
+        </label>
       </form>
-      {currency && amount && <div>You will get {amount * currency}</div>}
+      {amount && selectedCurrency && (
+        <div>
+          For <span className={styles.color}>{amount}</span> czk you will get{" "}
+          <span className={styles.color}>
+            {(
+              (amount * parseInt(selectedCurrency.amount)) /
+              parseFloat(selectedCurrency.rate)
+            ).toFixed(3)}{" "}
+          </span>
+          {selectedCurrency.currency}
+        </div>
+      )}
     </div>
   );
 };
