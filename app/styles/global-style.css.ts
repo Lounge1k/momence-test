@@ -12,11 +12,21 @@ globalFontFace(contentFont, {
   src: "url('https://fonts.gstatic.com/s/robotomono/v23/L0xTDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_3vrtSM1J-gEPT5Ese6hmHSh0me8iUI0.woff2') format('woff2');",
 });
 
+globalStyle("*", {
+  boxSizing: "border-box",
+});
+
 globalStyle("html, body", {
   fontFamily: contentFont,
   margin: 0,
-  display: "flex",
   width: "100%",
+  height: "100%",
+  fontSize: "3vw",
+  "@media": {
+    "screen and (min-width: 788px)": {
+      fontSize: "16px",
+    },
+  },
 });
 
 export const font = style({
