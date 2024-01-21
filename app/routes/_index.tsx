@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Converter } from "~/components/coverter";
 import { getCurrency } from "~/server/getCurrency";
 import { CurrencyTable } from "~/components/currency-table";
-import * as styles from "~/styles/styles.css";
+import * as styles from "~/styles/global-style.css";
 
 export const meta: MetaFunction = () => {
   return [

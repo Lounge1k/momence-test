@@ -1,8 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { ICurrency } from "~/interfaces";
 
-import * as styles from "~/styles/styles.css";
-
+import * as styles from "~/styles/converter.css";
 type CoverterProps = {
   data: ICurrency[];
 };
@@ -24,23 +23,24 @@ export const Converter = ({ data }: CoverterProps) => {
     <div className={styles.converter}>
       <form>
         <label className={styles.label} htmlFor="amount">
-          Amount
+          Convert
           <input
-            className={styles.formField}
+            className={styles.input}
             onChange={handlerAmount}
             type="number"
             id="amount"
           />
+          czk
         </label>
         <label className={styles.label} id="currency">
-          Currency
+          to
           <select
             className={styles.dropdown}
             id="currency"
             onChange={selectCurrency}
           >
             <option value="" disabled selected>
-              Select your option
+              Select currency
             </option>
             {data.map(({ code }: ICurrency) => (
               <option key={code} value={code}>
