@@ -22,6 +22,7 @@ globalStyle("html, body", {
   width: "100%",
   height: "100%",
   fontSize: "3vw",
+  minWidth: "320px",
   "@media": {
     "screen and (min-width: 788px)": {
       fontSize: "16px",
@@ -29,7 +30,29 @@ globalStyle("html, body", {
   },
 });
 
-export const font = style({
+export const fontBold = style({
   fontFamily: contentFont,
   fontWeight: 600,
+});
+
+export const fontNormal = style({
+  fontFamily: contentFont,
+  fontWeight: 400,
+  fontSize: "3vw",
+  "@media": {
+    "screen and (min-width: 788px)": {
+      fontSize: "16px",
+    },
+  },
+});
+
+export const wrapper = style({
+  display: "flex",
+  flexWrap: "wrap",
+  height: "100%",
+});
+
+export const container = style({
+  flex: "1 0 50%",
+  padding: "15px 10px",
 });

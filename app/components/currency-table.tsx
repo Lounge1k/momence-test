@@ -1,4 +1,4 @@
-import * as styles from "~/styles/styles.css";
+import * as styles from "~/styles/table.css";
 import { ICurrency } from "~/interfaces";
 
 type CurrencyTableProps = {
@@ -10,7 +10,7 @@ export const CurrencyTable = ({ columns, data }: CurrencyTableProps) => {
   return (
     <table className={styles.table}>
       <thead>
-        <tr>
+        <tr className={styles.tableHeadingRow}>
           {columns.map((column) => (
             <th className={styles.tableHeading} key={column}>
               {column}
