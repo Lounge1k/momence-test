@@ -1,4 +1,5 @@
 import { ICurrency, IColumns } from "~/interfaces";
+import { getCurrencyController } from "./get-currency-controller";
 
 export const getCurrency = async () => {
   // TODO: implement error catch
@@ -6,17 +7,7 @@ export const getCurrency = async () => {
     "https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt"
   );
   const text = await res.text();
-  const lines = text.trim().split("\n");
-  const date = lines[0];
-  const columns = lines[1].split("|") as IColumns[];
-  const data = lines.slice(2).map((currency: string) => {
-    return currency.split("|").reduce((result, item, index) => {
-      return {
-        ...result,
-        [columns[index].toLowerCase()]: item,
-      };
-    }, {} as ICurrency);
-  });
+  const { date, columns, data} = getCurrencyController(text);
   return {
     date,
     columns,

@@ -1,6 +1,6 @@
-import * as styles from "~/styles/table.css";
 import { ICurrency } from "~/interfaces";
 
+import * as styles from "../styles/table.css";
 type CurrencyTableProps = {
   columns: string[];
   data: ICurrency[];

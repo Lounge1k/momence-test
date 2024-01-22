@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ICurrency } from "~/interfaces";
 
 import * as styles from "../styles/converter.css";
@@ -9,6 +9,15 @@ type CoverterProps = {
 export const Converter = ({ data }: CoverterProps) => {
   const [selectedCurrency, setSelectedCurrency] = useState<ICurrency>();
   const [amount, setAmount] = useState<number>();
+
+  const calculateAmount = useMemo(() => {
+    if (amount && selectedCurrency) {
+      return (
+        (amount * parseInt(selectedCurrency.amount)) /
+        parseFloat(selectedCurrency.rate)
+      ).toFixed(3);
+    }
+  }, [selectedCurrency, amount]);
 
   const selectCurrency = (e: any) => {
     const selected = data.find((curr) => curr.code === e.target.value);
@@ -25,6 +34,7 @@ export const Converter = ({ data }: CoverterProps) => {
         <label className={styles.label} htmlFor="amount">
           Convert
           <input
+            data-testid="input"
             className={styles.input}
             onChange={handlerAmount}
             type="number"
@@ -35,6 +45,7 @@ export const Converter = ({ data }: CoverterProps) => {
         <label className={styles.label} id="currency">
           to
           <select
+            data-testid="select"
             className={styles.dropdown}
             id="currency"
             onChange={selectCurrency}
@@ -43,7 +54,7 @@ export const Converter = ({ data }: CoverterProps) => {
               Select currency
             </option>
             {data.map(({ code }: ICurrency) => (
-              <option key={code} value={code}>
+              <option data-testid={`option-${code}`} key={code} value={code}>
                 {code}
               </option>
             ))}
@@ -51,14 +62,11 @@ export const Converter = ({ data }: CoverterProps) => {
         </label>
       </form>
       {amount && selectedCurrency && (
-        <div>
+        <div data-testid={"converted"}>
           For <span className={styles.color}>{amount}</span> czk you will get{" "}
-          <span className={styles.color}>
-            {(
-              (amount * parseInt(selectedCurrency.amount)) /
-              parseFloat(selectedCurrency.rate)
-            ).toFixed(3)}{" "}
-          </span>
+          <span data-testid={"calculated-amount"} className={styles.color}>
+            {calculateAmount}
+          </span>{" "}
           {selectedCurrency.currency}
         </div>
       )}
